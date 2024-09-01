@@ -1,0 +1,21 @@
+{% block model_comparison %}
+<div id="model-comparison" class="mt-8 hidden">
+    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Model Comparison</h2>
+    <div class="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0 md:space-x-4">
+        <div class="w-full md:w-1/2">
+            <h3 class="text-lg font-medium mb-2 text-gray-700">Control Image</h3>
+            <a href="#" id="control-image-link" target="_blank">
+                <img id="control-image-preview" src="" alt="Control Image" class="w-full h-auto rounded-lg shadow-md object-cover cursor-pointer">
+            </a>
+            <p id="control-image-size" class="mt-2 text-sm text-gray-600"></p>
+        </div>
+        <div class="w-full md:w-1/2">
+            <h3 class="text-lg font-medium mb-2 text-gray-700">Generated Image</h3>
+            <a href="#" id="generated-image-link" target="_blank">
+                <img id="generated-image-preview" src="" alt="Generated Image" class="w-full h-auto rounded-lg shadow-md object-cover cursor-pointer">
+            </a>
+            <p id="generated-image-size" class="mt-2 text-sm text-gray-600"></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

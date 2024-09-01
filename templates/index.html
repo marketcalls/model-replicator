@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% include "input_form.html" %}
+    {% include "description_section.html" %}
+    {% include "model_comparison.html" %}
+
+    <!-- Loading Indicator -->
+    <div id="loading" class="mt-8 text-center hidden">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+        <p class="mt-2 text-gray-600">Processing...</p>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const form = document.getElementById('image-form');
+    const controlImageUrlInput = document.getElementById('control-image-url');
+    const negativePromptInput = document.getElementById('negative-prompt');
+    const controlTypeSelect = document.getElementById('control-type');
+    const wordsToReplaceInput = document.getElementById('words-to-replace');
+    const triggerWordInput = document.getElementById('trigger-word');
+    const descriptionSection = document.getElementById('description-section');
+    const modelDescriptionTextarea = document.getElementById('model-description');
+    const editDescriptionBtn = document.getElementById('edit-description');
+    const generateImageBtn = document.getElementById('generate-image');
+    const modelComparison = document.getElementById('model-comparison');
+    const controlImagePreview = document.getElementById('control-image-preview');
+    const generatedImagePreview = document.getElementById('generated-image-preview');
+    const controlImageLink = document.getElementById('control-image-link');
+    const generatedImageLink = document.getElementById('generated-image-link');
+    const controlImageSize = document.getElementById('control-image-size');
+    const generatedImageSize = document.getElementById('generated-image-size');
+    const loadingDiv = document.getElementById('loading');
+
+    function updateImageSize(img, sizeElement) {
+        sizeElement.textContent = `${img.naturalWidth}x${img.naturalHeight}px`;
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const controlImageUrl = controlImageUrlInput.value;
+        const negativePrompt = negativePromptInput.value;
+        const controlType = controlTypeSelect.value;
+        const wordsToReplace = wordsToReplaceInput.value;
+        const triggerWord = triggerWordInput.value;
+
+        if (!controlImageUrl) {
+            alert('Please enter a Control Image URL');
+            return;
+        }
+
+        descriptionSection.classList.add('hidden');
+        modelComparison.classList.add('hidden');
+        loadingDiv.classList.remove('hidden');
+
+        try {
+            const response = await fetch('/generate_description', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'control_image_url': controlImageUrl,
+                    'negative_prompt': negativePrompt,
+                    'control_type': controlType,
+                    'words_to_replace': wordsToReplace,
+                    'trigger_word': triggerWord
+                })
+            });
+            const data = await response.json();
+            
+            if (data.error) {
+                alert(data.error);
+            } else {
+                modelDescriptionTextarea.value = data.modified_description;
+                descriptionSection.classList.remove('hidden');
+                controlImagePreview.src = controlImageUrl;
+                controlImageLink.href = controlImageUrl;
+                controlImagePreview.onload = () => updateImageSize(controlImagePreview, controlImageSize);
+            }
+        } catch (error) {
+            alert('An error occurred while generating the description');
+            console.error(error);
+        } finally {
+            loadingDiv.classList.add('hidden');
+        }
+    });
+
+    editDescriptionBtn.addEventListener('click', () => {
+        modelDescriptionTextarea.readOnly = false;
+        modelDescriptionTextarea.focus();
+    });
+
+    generateImageBtn.addEventListener('click', async () => {
+        const controlImageUrl = controlImageUrlInput.value;
+        const negativePrompt = negativePromptInput.value;
+        const controlType = controlTypeSelect.value;
+        const modelDescription = modelDescriptionTextarea.value;
+
+        modelComparison.classList.add('hidden');
+        loadingDiv.classList.remove('hidden');
+
+        try {
+            const response = await fetch('/generate_image', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'control_image_url': controlImageUrl,
+                    'negative_prompt': negativePrompt,
+                    'control_type': controlType,
+                    'model_description': modelDescription
+                })
+            });
+            const data = await response.json();
+            
+            if (data.error) {
+                alert(data.error);
+            } else {
+                generatedImagePreview.src = data.generated_image_url;
+                generatedImageLink.href = data.generated_image_url;
+                generatedImagePreview.onload = () => updateImageSize(generatedImagePreview, generatedImageSize);
+                modelComparison.classList.remove('hidden');
+            }
+        } catch (error) {
+            alert('An error occurred while generating the image');
+            console.error(error);
+        } finally {
+            loadingDiv.classList.add('hidden');
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% block input_form %}
+<form id="image-form" class="space-y-6">
+    <div>
+        <label for="control-image-url" class="block text-sm font-medium text-gray-700">Control Image URL</label>
+        <input type="text" id="control-image-url" name="control_image_url" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+            focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500" placeholder="https://example.com/control-image.jpg">
+    </div>
+    <div>
+        <label for="negative-prompt" class="block text-sm font-medium text-gray-700">Negative Prompt</label>
+        <input type="text" id="negative-prompt" name="negative_prompt" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+            focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500" value="low quality, ugly, distorted, artefacts, necklace, text">
+    </div>
+    <div>
+        <label for="control-type" class="block text-sm font-medium text-gray-700">Control Type</label>
+        <select id="control-type" name="control_type" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+            <option value="depth">Depth</option>
+            <option value="canny">Canny</option>
+            <option value="soft_edge">Soft Edge</option>
+        </select>
+    </div>
+    <div>
+        <label for="words-to-replace" class="block text-sm font-medium text-gray-700">Words to Replace (comma-separated)</label>
+        <input type="text" id="words-to-replace" name="words_to_replace" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+            focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500" value="man,male,boy,men,male">
+    </div>
+    <div>
+        <label for="trigger-word" class="block text-sm font-medium text-gray-700">FLUX LORA Trigger Word</label>
+        <input type="text" id="trigger-word" name="trigger_word" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+            focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500" value="BATMAN">
+    </div>
+    <button type="submit" class="w-full bg-indigo-600 text-white p-2 rounded-md hover:bg-indigo-700 transition duration-300 text-sm font-medium">Generate Description</button>
+</form>
+{% endblock %}

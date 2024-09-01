@@ -1,0 +1,38 @@
+# Virtual Environment
+venv/
+
+# Environment Variables
+.env
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Flask related
+instance/
+
+# Temporary files
+*.tmp
+
+# Database files
+*.db
+*.sqlite
