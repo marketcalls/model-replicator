@@ -127,10 +127,10 @@ def generate_image():
         "guidance_scale": 2.5,
         "output_quality": 100,
         "negative_prompt": negative_prompt,
-        "control_strength": 0.45,
+        "control_strength": 0.65,
         "depth_preprocessor": "DepthAnything",
         "soft_edge_preprocessor": "HED",
-        "image_to_image_strength": 0,
+        "image_to_image_strength": 0.13,
         "return_preprocessed_image": False
     }
     
